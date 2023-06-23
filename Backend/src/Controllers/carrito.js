@@ -1,4 +1,4 @@
-const TechSchema = require('../Database/Models/Technology');
+const TechSchema = require("../Database/models/Technology");
 
 // Agregar usuario al carrito
 const addToCartHandler = async (req, res) => {
@@ -10,9 +10,9 @@ const addToCartHandler = async (req, res) => {
       $push: { carrito: userId },
     });
 
-    res.status(200).json({ message: 'Producto agregado al carrito con éxito' });
+    res.status(200).json({ message: "Producto agregado al carrito con éxito" });
   } catch (error) {
-    res.status(500).json({ error: 'Error al agregar el producto al carrito' });
+    res.status(500).json({ error: "Error al agregar el producto al carrito" });
   }
 };
 
@@ -29,11 +29,11 @@ const removeFromCartHandler = async (req, res) => {
 
     res
       .status(200)
-      .json({ message: 'Producto eliminado del carrito con éxito' });
+      .json({ message: "Producto eliminado del carrito con éxito" });
   } catch (error) {
     res
       .status(500)
-      .json({ error: 'Error al eliminar el producto del carrito' });
+      .json({ error: "Error al eliminar el producto del carrito" });
   }
 };
 
@@ -48,7 +48,7 @@ const getCartProductsHandler = async (req, res) => {
   } catch (error) {
     res
       .status(500)
-      .json({ error: 'Error al obtener los productos del carrito' });
+      .json({ error: "Error al obtener los productos del carrito" });
   }
 };
 
