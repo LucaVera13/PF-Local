@@ -1,4 +1,4 @@
-const TechSchema = require("../Database/Models/Technology");
+const TechSchema = require("../Database/models/Technology");
 
 const ofertProduct = async (req, res) => {
   try {

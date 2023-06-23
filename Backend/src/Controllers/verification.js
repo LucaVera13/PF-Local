@@ -1,5 +1,5 @@
 const nodemailer = require("nodemailer");
-const Token = require("../Database/Models/Tokens");
+const Token = require("../Database/models/Tokens");
 
 const EMAIL_PASSWORD = process.env.EMAIL_PASSWORD;
 const transporter = nodemailer.createTransport({
@@ -14,9 +14,19 @@ const transporter = nodemailer.createTransport({
 });
 
 async function postVerifyUser(req, res) {
-  const { email, uuid, userName, password, genero, nacimiento, ubiCiudad,ubiDireccion,ubiCodigoPostal, apellido } =
-    req.body;
- 
+  const {
+    email,
+    uuid,
+    userName,
+    password,
+    genero,
+    nacimiento,
+    ubiCiudad,
+    ubiDireccion,
+    ubiCodigoPostal,
+    apellido,
+  } = req.body;
+
   try {
     const newVerify = new Token({ token: uuid });
     const savedToken = await newVerify.save();
@@ -62,7 +72,7 @@ async function postVerifyUser(req, res) {
 async function getVerifyUser(req, res) {
   const { uuid } = req.params;
   try {
-    const verification = await Token.findOne({token:{$eq:uuid}});
+    const verification = await Token.findOne({ token: { $eq: uuid } });
     if (verification) {
       res.status(200).json(verification);
     } else {

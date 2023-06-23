@@ -1,4 +1,4 @@
-const TechSchema = require("../Database/Models/Technology");
+const TechSchema = require("../Database/models/Technology");
 const { cloudinary } = require("../utils/cloudinary");
 
 const postProduct = async (req, res) => {

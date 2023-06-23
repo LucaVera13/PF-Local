@@ -1,4 +1,4 @@
-const TechSchema = require("../Database/Models/Technology");
+const TechSchema = require("../Database/models/Technology");
 
 const detailProduct = async (req, res) => {
   try {
@@ -10,4 +10,4 @@ const detailProduct = async (req, res) => {
     console.error(error);
   }
 };
-module.exports = detailProduct
+module.exports = detailProduct;

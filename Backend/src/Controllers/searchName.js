@@ -1,4 +1,4 @@
-const TechSchema = require("../Database/Models/Technology");
+const TechSchema = require("../Database/models/Technology");
 
 const Search = async (req, res) => {
   try {
@@ -20,5 +20,5 @@ const Search = async (req, res) => {
     console.error(error);
   }
 };
-module.exports = Search;
-  module.exports = Search
+module.exports = Search;
+module.exports = Search;
