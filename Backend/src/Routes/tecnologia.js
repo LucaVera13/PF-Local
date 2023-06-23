@@ -20,7 +20,7 @@ const {
   getElectronica,
   getConsolas,
   getCelulares,
-} = require("../Controllers/subCategorias");
+} = require("../Controllers/subcategorias");
 const upload = require("../utils/multer");
 
 //----------getAllProducts---------------------------------------------------------------------------------------------------------------//
