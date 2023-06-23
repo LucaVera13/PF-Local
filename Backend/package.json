@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon ./src/index.js"
+    "start": "node index.js"
   },
   "author": "",
   "license": "ISC",
@@ -14,7 +14,7 @@
     "cloudinary": "^1.37.2",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
-    "dotenv": "^16.1.4",
+    "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "index.js": "^0.0.3",
     "mongoose": "^6.10.1",
