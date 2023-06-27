@@ -45,8 +45,9 @@ router.get("/Detail/:id", detailProduct);
 //-----------SearchByName-------------------------------------------------------------------------------------------------------------//
 router.get("/searchName", Search);
 
-// subcatgoria
 
+
+// subcatgoria
 router.get("/Computacion/:compu", getComputacion);
 router.get("/ElectronicaAudioVideo/:electro", getElectronica);
 router.get("/ConsolasyVideojuegos/:conso", getConsolas);

@@ -33,16 +33,12 @@ const TechnologySchema = mongoose.Schema({
     type: Number,
     default: 0,
   },
-  Disabled:{
-    type:Boolean,
-    default:false
+  Disabled: {
+    type: Boolean,
+    default: false,
   },
   favoritos: {
     type: [String], // Array de IDs de favoritos
-    default: [],
-  },
-  carrito: {
-    type: [String], // Array de IDs de productos en el carrito
     default: [],
   },
   subcategoria: {
@@ -184,7 +180,7 @@ const TechnologySchema = mongoose.Schema({
   },
 });
 TechModel = mongoose.model("Technology", TechnologySchema);
-module.exports = TechModel
+module.exports = TechModel;
 
 // const TechnologySchema = mongoose.Schema({
 //   name: {

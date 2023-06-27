@@ -36,11 +36,11 @@ function Signup() {
           const decodedCodigoPostal = decodeURIComponent(codigoPostal);
           console.log(decodedToken);
           const { data } = await axios.get(
-            `http://localhost:3001/users/verify_emaill/${decodedToken}`
+            `https://re-store.onrender.com/users/verify_emaill/${decodedToken}`
           );
 
           if (data.token === decodedToken) {
-            await axios.post("http://localhost:3001/users", {
+            await axios.post("https://re-store.onrender.com/users", {
               nombre: decodedUserName,
               apellido: decodedApellido,
               contraseña: decodedPassword,
@@ -94,7 +94,7 @@ function Signup() {
     };
   }, []);
 
-  const URL = "http://localhost:3001/users";
+  const URL = "https://re-store.onrender.com/users";
 
   const [message, setMessage] = useState("");
   const [flag, setFlag] = useState(false);
@@ -145,7 +145,7 @@ function Signup() {
     try {
       if (user.email) {
         const { data } = await axios.get(
-          `http://localhost:3001/users/${user.email}/email`
+          `https://re-store.onrender.com/users/${user.email}/email`
         );
         if (!data.error) {
           const mailFind = data.find((userr) => userr?.email === user.email);
@@ -204,7 +204,7 @@ function Signup() {
         setFlag(false); // Cambia flag a false si ya se creó un usuario anteriormente
       } else {
         const uuid = uuidv4();
-        await axios.post("http://localhost:3001/users/verify_email", {
+        await axios.post("https://re-store.onrender.com/users/verify_email", {
           email: user.email,
           uuid,
           userName: user.userName,
@@ -337,7 +337,7 @@ function Signup() {
           </div>
           <div className="inputBox">
             <input
-              type="text"
+              type="number"
               required
               name="ubiCodigoPostal"
               value={user.ubiCodigoPostal}
@@ -349,7 +349,7 @@ function Signup() {
           <div className="inputBox">
             <input type="submit" value="Crea tu cuenta"></input>
           </div>
-          <p id="userCreatedMessage">{flag ? "Verifca tu email" : null}</p>
+          <p id="userCreatedMessage">{flag ? "Verifica tu email" : null}</p>
           <p id="userCreatedMessage">{message}</p>
           <p>
             Ya sos miembro?{" "}

@@ -41,7 +41,7 @@ async function postVerifyUser(req, res) {
     const encodedCiudad = encodeURIComponent(ubiCiudad);
     const encodedDireccion = encodeURIComponent(ubiDireccion);
     const encodedCodigoPostal = encodeURIComponent(ubiCodigoPostal);
-    const verifyEmailUrl = `http://localhost:7000/login/signup?token=${encodedUuid}&userName=${encodedUser}&apellido=${encodedApellido}&password=${encodedPassword}&email=${encodedEmail}&genero=${encodedGenero}&nacimiento=${encodedNacimiento}&ciudad=${encodedCiudad}&direccion=${encodedDireccion}&codigoPostal=${encodedCodigoPostal}`;
+    const verifyEmailUrl = `http://localhost:3000/login/signup?token=${encodedUuid}&userName=${encodedUser}&apellido=${encodedApellido}&password=${encodedPassword}&email=${encodedEmail}&genero=${encodedGenero}&nacimiento=${encodedNacimiento}&ciudad=${encodedCiudad}&direccion=${encodedDireccion}&codigoPostal=${encodedCodigoPostal}`;
     const mailOptions = {
       from: "reStorePFHenry@gmail.com",
       to: email,

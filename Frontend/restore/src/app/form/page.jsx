@@ -1,38 +1,45 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import {
-  Button,
-  Form,
-  Input,
-  Radio,
-  Select,
-  Upload,
-} from "antd";
+import { Button, Form, Input, Radio, Select, Upload } from "antd";
 import axios from "axios";
 import { Navbar } from "../components/navbar/navbar";
-
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function MyForm() {
+  const { data: session,status } = useSession();
   const [categoria, setCategoria] = useState(null);
-
+  const router = useRouter();
+  if (status === "loading") {
+    return <p>Loading...</p>
+  }
+  if (status === "unauthenticated") {
+    return <p>Acceso denegado</p>
+  }
   useEffect(() => {
+    if (!session && !document.cookie.includes("UserLocal")) {
+      router.push("/login");
+      return;
+    }
     const fetchData = async () => {
       const response = await axios.get(
-        "http://localhost:3001/categories/technology/subcategorias"
+        "https://re-store.onrender.com/categories/technology/subcategorias"
       );
       setCategoria(response.data);
     };
     fetchData();
   }, []);
 
+ 
+
   const { TextArea } = Input;
   const { Option } = Select;
   const categorias = [
-    { label: 'Computación', value: 'Computacion' },
-    { label: 'Electrónica Audio y Video', value: 'ElectronicaAudioVideo' },
-    { label: 'Consolas y Videojuegos', value: 'ConsolasyVideojuegos' },
-    { label: 'Celulares', value: 'Celulares' },
-    { label: 'Cámaras y Accesorios', value: 'CamarasyAccesorios' },
+    { label: "Computación", value: "Computacion" },
+    { label: "Electrónica Audio y Video", value: "ElectronicaAudioVideo" },
+    { label: "Consolas y Videojuegos", value: "ConsolasyVideojuegos" },
+    { label: "Celulares", value: "Celulares" },
+    { label: "Cámaras y Accesorios", value: "CamarasyAccesorios" },
   ];
 
   const subcategorias = categoria
@@ -56,9 +63,9 @@ export default function MyForm() {
     state: "",
     file: null,
     precio: 0,
-    Description: '',
-    Marca: '',
-    Ubicacion: '',
+    Description: "",
+    Marca: "",
+    Ubicacion: "",
     Ofertas: 0,
     subcategoria: {},
   });
@@ -106,7 +113,7 @@ export default function MyForm() {
   const handleSubmit = () => {
     const formData = new FormData();
     for (const key in input) {
-      if (key === "file") formData.append("image", input.file)
+      if (key === "file") formData.append("image", input.file);
       else if (key === "subcategoria") {
         formData.append(key, JSON.stringify(input[key]));
       } else {
@@ -114,48 +121,46 @@ export default function MyForm() {
       }
     }
 
-    console.log(Object.fromEntries(formData.entries()))
-  
-    
+    console.log(Object.fromEntries(formData.entries()));
 
     axios
-      .post("http://localhost:3001/categories/technology/posteo", formData)
+      .post("https://re-store.onrender.com/categories/technology/posteo", formData)
       .then(() => {
         alert("Producto creado exitosamente");
       })
       .catch((error) => {
-        console.error('Error al publicar el producto:', error);
+        console.error("Error al publicar el producto:", error);
       });
   };
 
   return (
-    <div className=''>
+    <div className="">
       <Navbar />
-      <div className=' flex justify-between'>
+      <div className=" flex justify-between">
         <div>
-          <h1 className=''>Ingresa la información del producto</h1>
+          <h1 className="">Ingresa la información del producto</h1>
         </div>
         <div>
-          <Button type='dashed'>X</Button>
+          <Button type="dashed">X</Button>
         </div>
       </div>
       <Form
         labelCol={{ span: 0 }}
         wrapperCol={{ span: 14 }}
-        layout='horizontal'
+        layout="horizontal"
         onFinish={handleSubmit}
       >
         <Form.Item
-          name='Categoría'
-          label='Categoría'
-          rules={[{ required: true, message: 'Escoge la categoría' }]}
+          name="Categoría"
+          label="Categoría"
+          rules={[{ required: true, message: "Escoge la categoría" }]}
         >
           <Select
-            placeholder='Selecciona la categoría'
+            placeholder="Selecciona la categoría"
             onChange={handleCategoriaChange}
             showSearch
-            optionFilterProp='children'
-            mode='single'
+            optionFilterProp="children"
+            mode="single"
           >
             {categorias.map((categoria) => (
               <Option key={categoria.value} value={categoria.value}>
@@ -166,16 +171,16 @@ export default function MyForm() {
         </Form.Item>
 
         <Form.Item
-          name='Subcategoría'
-          label='Subcategoría'
-          rules={[{ required: true, message: 'Escoge la subcategoría' }]}
+          name="Subcategoría"
+          label="Subcategoría"
+          rules={[{ required: true, message: "Escoge la subcategoría" }]}
         >
           <Select
             key={subcategoriaKey}
-            placeholder='Selecciona la subcategoría'
+            placeholder="Selecciona la subcategoría"
             showSearch
-            optionFilterProp='children'
-            mode='single'
+            optionFilterProp="children"
+            mode="single"
             defaultValue={undefined}
             onChange={handleSubcategoriaChange}
           >
@@ -188,30 +193,30 @@ export default function MyForm() {
         </Form.Item>
 
         <Form.Item
-          name='producto'
-          label='Nombre'
+          name="producto"
+          label="Nombre"
           rules={[
-            { required: true, message: 'Ingresa el nombre del producto' },
+            { required: true, message: "Ingresa el nombre del producto" },
           ]}
         >
           <Input
-            placeholder='Escribe el nombre del producto'
+            placeholder="Escribe el nombre del producto"
             value={input.name}
             onChange={(e) => setInput({ ...input, name: e.target.value })}
           />
         </Form.Item>
 
         <Form.Item
-          name='Marca'
-          label='Marca'
-          rules={[{ required: true, message: 'Escoge la marca' }]}
+          name="Marca"
+          label="Marca"
+          rules={[{ required: true, message: "Escoge la marca" }]}
         >
           <Select
             key={subcategoriaKey}
-            placeholder='Selecciona la marca'
+            placeholder="Selecciona la marca"
             showSearch
-            optionFilterProp='children'
-            mode='single'
+            optionFilterProp="children"
+            mode="single"
             defaultValue={undefined}
             onChange={handleMarca}
           >
@@ -224,39 +229,39 @@ export default function MyForm() {
         </Form.Item>
 
         <Form.Item
-          name='precio'
-          label='Precio'
+          name="precio"
+          label="Precio"
           rules={[
             {
               required: true,
-              message: 'Ingresa el precio',
+              message: "Ingresa el precio",
             },
           ]}
         >
           <Input
-            type='number'
-            name='precio'
-            placeholder='Escribe el precio'
+            type="number"
+            name="precio"
+            placeholder="Escribe el precio"
             value={input.precio}
             onChange={(e) => setInput({ ...input, precio: e.target.value })}
           />
         </Form.Item>
 
         <Form.Item
-          name='ubicacion'
-          label='Ubicación'
-          rules={[{ required: true, message: 'Ingresa la ciudad' }]}
+          name="ubicacion"
+          label="Ubicación"
+          rules={[{ required: true, message: "Ingresa la ciudad" }]}
         >
           <Input
-            placeholder='Escribe la ciudad'
+            placeholder="Escribe la ciudad"
             value={input.Ubicacion}
             onChange={(e) => setInput({ ...input, Ubicacion: e.target.value })}
           />
         </Form.Item>
 
-        <Form.Item label='Estado'>
+        <Form.Item label="Estado">
           <Radio.Group
-            name='estado'
+            name="estado"
             value={input.state}
             onChange={(e) => setInput({ ...input, state: e.target.value })}
           >
@@ -266,7 +271,7 @@ export default function MyForm() {
           </Radio.Group>
         </Form.Item>
 
-        <Form.Item label='Descripción'>
+        <Form.Item label="Descripción">
           <TextArea
             rows={4}
             value={input.Description}
@@ -290,13 +295,13 @@ export default function MyForm() {
                   marginTop: 8,
                 }}
               >
-                {input.file ? input.file.name :  "Upload"}
+                {input.file ? input.file.name : "Upload"}
               </div>
             </div>
           </Upload>
         </Form.Item>
 
-        <Button htmlType='submit' className=''>
+        <Button htmlType="submit" className="">
           Publicar
         </Button>
       </Form>

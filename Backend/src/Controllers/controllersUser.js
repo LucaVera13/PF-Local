@@ -78,51 +78,42 @@ const createUserController = async (req, res) => {
 const updateUser = async (req, res) => {
   try {
     const { id } = req.params;
+    if (req.file) {
 
-    // Busca el usuario por su ID
-    const user = await User.findById(id);
+      const previousProfilePictureUrl = user.profile_picture;
+      console.log(previousProfilePictureUrl);
+  
+      if (previousProfilePictureUrl) {
+        await cloudinary.uploader.destroy(previousProfilePictureUrl);
+      }
 
-    if (!user) {
-      return res.status(404).json({ message: "No se encontró el usuario" });
+      
+      const cloudinaryImage = await cloudinary.uploader.upload(req.file.path, {
+        folder: "Foto de perfil",
+      });
     }
-
-    // Verificar la contraseña anterior
-    const { oldPassword, newPassword } = req.body;
-
-    const passwordMatch = await bcrypt.compare(oldPassword, user.contraseña);
-
-    if (!passwordMatch) {
-      return res
-        .status(401)
-        .json({ message: "La contraseña anterior es incorrecta" });
-    }
-    const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
-
-    // Actualiza solo los campos proporcionados en el cuerpo de la solicitud
-    const updatedFields = {
-      nombre: req.body.nombre,
-      apellido: req.body.apellido,
-      email: req.body.email,
-      contraseña: hashedPassword, // Actualiza la contraseña con la nueva contraseña proporcionada
-      genero: req.body.genero,
-      fechaNacimiento: req.body.fechaNacimiento,
-      ubicacion: req.body.ubicacion,
-      metodosPago: req.body.metodosPago,
+     // user.profile_picture = cloudinaryImage.secure_url;
+    const update = {
+      $set: {
+        nombre: req.body.nombre,
+        apellido: req.body.apellido,
+        email: req.body.email,
+        genero: req.body.genero,
+        fechaNacimiento: req.body.fechaNacimiento,
+        ubicacion: req.body.ubicacion,
+        metodosPago: req.body.metodosPago,
+      },
     };
 
-    // Filtra los campos que se hayan proporcionado en el cuerpo de la solicitud
-    const filteredFields = Object.fromEntries(
-      Object.entries(updatedFields).filter(
-        ([key, value]) => value !== undefined
-      )
-    );
+    const updtUser = await User.findOneAndUpdate({ _id: id }, update, { new: true });
 
-    // Actualiza los campos en el objeto del usuario
-    Object.assign(user, filteredFields);
 
-    const updatedUser = await user.save();
+  
 
-    res.status(200).json(updatedUser);
+   
+
+
+    res.status(200).json(updtUser);
   } catch (error) {
     console.error(error);
     res
@@ -273,6 +264,5 @@ module.exports = {
   updateUser,
   getUsersHandler,
   createUserController,
-  updateProfilePicture,
   getEMAIL,
 };

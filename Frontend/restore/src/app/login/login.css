@@ -20,7 +20,7 @@
 .containerLogIn .BoxLogin{
   position: relative;
   width: 400px;
-  height: 480px;
+  height: 680px;
   display: flex;
    justify-content: center;
    align-items: center;
@@ -58,9 +58,9 @@ z-index: 1;
 content: "";
 position: absolute;
 top: 0;
-left: calc(100% + 96px);
-height: 240%;
-width: 120%;
+left: calc(100% + 314px);
+height: calc(200% + 630px);
+width: calc(100% + 270px);
 background: linear-gradient(rgba(0,0,0,0.075),transparent);
 transform: skewX(45deg);
 }
@@ -68,7 +68,7 @@ transform: skewX(45deg);
 content: "";
 position: absolute;
 bottom: -200%;
-left: calc(100% + 80px);
+left: calc(100% + 280px);
 height: 200%;
 width: 100%;
 background: linear-gradient(rgba(0,0,0,0.075),transparent);
@@ -77,9 +77,9 @@ transform: skewX(45deg);
 .cover{
    position: absolute;
    top: 0;
-   left: -100px;
-   width: 100px;
-   height: 100px;
+   left: -280px;
+   width: 279px;
+   height: 280px;
    background: #cfd1e1;
    z-index: 10;
 }
@@ -104,6 +104,7 @@ transform: skewX(45deg);
    justify-content: center;
    align-items: center;
    flex-direction: column;
+   bottom: 40px;
 }
 .logo{
    width: 70px;
@@ -178,10 +179,84 @@ padding: 2px 4px;
    color: #fff;
    cursor: pointer;
    padding: 10px;
+   border-radius: 12px;
 }
 .content .formLogin .inputBox input[type="submit"]:hover{
-   background: #16213c; 
+   box-shadow: 0 3px 4px 0 #0f172a;
+
 }
   .error-login{
     color: red;
   }
+
+  .google-btn {
+   margin-top: 15px;
+   cursor: pointer;
+   width: 100%;
+   height: 52px;
+   background-color: #4285f4;
+   border-radius: 12px;
+   box-shadow: 0 3px 4px 0 rgba(0,0,0,.25);
+   .google-icon-wrapper {
+     position: absolute;
+     margin-top: 5px;
+     margin-left: 10px;
+     width: 40px;
+     height: 40px;
+     border-radius: 2px;
+     background-color: #fff;
+     border-radius: 50%;
+   }
+   .google-icon {
+     position: absolute;
+     margin-top: 11px;
+     margin-left: 11px;
+     width: 18px;
+     height: 18px;
+   }
+   .btn-text {
+     float: right;
+     margin: 15px 104px 0 0;
+     color: #fff;
+     font-size: 14px;
+     letter-spacing: 0.2px;
+   
+     
+   }
+   &:hover {
+     box-shadow: 0 0 6px #4285f4;
+   }
+   &:active {
+     background: #1669F2;
+   }
+ }
+ .loginButton_github{
+   background-color: black;
+   color: white;
+   width: 100%;
+   margin-top: 15px;
+   cursor: pointer;
+   height: 52px;
+   border-radius: 12px;
+   box-shadow: 0 3px 4px 0 rgba(0,0,0,.25);
+ }
+ .loginButton_github img{
+   width: 40px;
+   height: 40px;
+   border-radius: 50%;
+   position: relative;
+   bottom: 20px;
+   left: 10px;
+ }
+ .loginButton_github span{
+   letter-spacing: 0.2px;
+   font-size: 14px;
+   position: relative;
+   left: 108px;
+   top: 12px;
+   font-weight: bold;
+ }
+ .loginButton_github:hover{
+  
+   box-shadow: 0 3px 4px 0 #101010;
+ }

@@ -6,7 +6,7 @@ import "./change.css";
 import Link from "next/link";
 
 function ChangePassword() {
-  const URL = "http://localhost:3001/users";
+  const URL = "https://re-store.onrender.com/users";
 
   const [flag, setFlag] = useState(false);
   const [user, setUser] = useState({
@@ -65,7 +65,7 @@ function ChangePassword() {
         setFlag(false); // Cambia flag a false si ya se creó un usuario anteriormente
       } else {
         axios
-          .put("http://localhost:3001/users/changePassword", {
+          .put("https://re-store.onrender.com/users/changePassword", {
             email: user.email,
             newPassword: user.password,
           })

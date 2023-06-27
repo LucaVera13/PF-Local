@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Boton from './components/Button/Button';
 
+
 export default function Landing() {
   return (
     <main className='relative h-screen '>

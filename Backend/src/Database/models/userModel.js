@@ -1,4 +1,4 @@
-const { Schema, model } = require("mongoose");
+const { Schema, model } = require('mongoose');
 
 const userSchema = new Schema({
   nombre: {
@@ -7,8 +7,10 @@ const userSchema = new Schema({
   apellido: {
     type: String,
   },
-  profile_picture: {
+  imagenDePerfil: {
     type: String,
+    default:
+      "https://static.vecteezy.com/system/resources/previews/008/442/086/original/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg",
   },
   email: {
     type: String,
@@ -19,7 +21,7 @@ const userSchema = new Schema({
   },
   genero: {
     type: String,
-    enum: ["Masculino", "Femenino", "Otro"],
+    enum: ['Masculino', 'Femenino', 'Otro'],
   },
   fechaNacimiento: {
     type: Date,
@@ -37,6 +39,24 @@ const userSchema = new Schema({
       },
     },
   ],
+  carrito: [
+    {
+      productId: {
+        type: String, // Suponiendo que los productos tienen un ObjectId único
+        // Nombre del modelo de los productos
+      },
+      cantidad: {
+        type: Number,
+        default: 1,
+      },
+      precio: {
+        type: Number,
+      },
+      oferta: {
+        type: Number,
+      },
+    },
+  ],
   metodosPago: [
     {
       tipo: {
@@ -49,4 +69,4 @@ const userSchema = new Schema({
   ],
 });
 
-module.exports = model("User", userSchema);
+module.exports = model('User', userSchema);
