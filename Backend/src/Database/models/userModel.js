@@ -1,4 +1,4 @@
-const { Schema, model } = require('mongoose');
+const { Schema, model } = require("mongoose");
 
 const userSchema = new Schema({
   nombre: {
@@ -21,7 +21,7 @@ const userSchema = new Schema({
   },
   genero: {
     type: String,
-    enum: ['Masculino', 'Femenino', 'Otro'],
+    enum: ["Masculino", "Femenino", "Otro"],
   },
   fechaNacimiento: {
     type: Date,
@@ -42,8 +42,7 @@ const userSchema = new Schema({
   carrito: [
     {
       productId: {
-        type: String, // Suponiendo que los productos tienen un ObjectId único
-        // Nombre del modelo de los productos
+        type: String,
       },
       cantidad: {
         type: Number,
@@ -69,4 +68,4 @@ const userSchema = new Schema({
   ],
 });
 
-module.exports = model('User', userSchema);
+module.exports = model("User", userSchema);
