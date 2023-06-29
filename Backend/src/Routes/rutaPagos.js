@@ -3,6 +3,7 @@ const router = express.Router();
 const { createSession } = require("../Controllers/paymentsControllers");
 const Stripe = require("stripe");
 const Order = require("../Database/models/order");
+const User = require("../Database/models/user");
 const stripe = new Stripe(
   "sk_test_51NNLpXJ1lb1YFkHpt7cNexUW59vJoBx40Sta98qZ2Bqa8bRzrTaU1gjsNAWMrpYseNMP4u3KRJZxMbjBXT9LtuJC00e9OgY4Hm"
 );
@@ -20,7 +21,9 @@ const createOrder = async (customer, data) => {
   try {
     console.log("Creating new order...");
 
-    const cartData = JSON.parse(customer.carrito);
+    const user = await User.findById(userId);
+    const cartData = JSON.parse(user.carrito);
+
     console.log("Cart Data:", cartData);
 
     const orderItems = cartData.map((item) => ({
@@ -32,7 +35,7 @@ const createOrder = async (customer, data) => {
     }));
 
     const newOrder = new Order({
-      user: customer.metadata.userId,
+      user: userId,
       customerId: data.customer,
       orderItems: orderItems,
       paymentInfo: {
@@ -47,7 +50,6 @@ const createOrder = async (customer, data) => {
     const createdOrder = await newOrder.save();
 
     console.log("Order created:", createdOrder);
-    // Realiza cualquier otra acción necesaria
 
     return createdOrder;
   } catch (error) {
