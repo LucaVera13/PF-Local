@@ -21,7 +21,7 @@ const createOrder = async (customer, data) => {
   try {
     console.log("Creating new order...");
 
-    const user = await User.findById(userId);
+    const user = await User.findById(customer.userId);
     const cartData = JSON.parse(user.carrito);
 
     console.log("Cart Data:", cartData);
