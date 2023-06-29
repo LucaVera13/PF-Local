@@ -42,7 +42,7 @@ const createSession = async (req, res) => {
 
     const paymentUrl = session.url;
     console.log(paymentUrl);
-    res.redirect(303, session.url);
+    res.json({ url: paymentUrl });
   } catch (error) {
     console.error("Error al crear la sesión de pago:", error);
     res.status(500).send("Error al crear la sesión de pago");
