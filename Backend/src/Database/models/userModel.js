@@ -69,14 +69,8 @@ const userSchema = new Schema({
           id: {
             type: String,
           },
-          name: {
-            type: String,
-          },
           quantity: {
             type: String,
-          },
-          images: {
-            type: [String],
           },
           price: {
             type: Number,
