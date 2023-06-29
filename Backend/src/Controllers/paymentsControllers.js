@@ -8,6 +8,7 @@ const DOMAIN = "https://re-store-six.vercel.app/";
 //   "whsec_602cd2598b4998749e3f929be11b474b1123a11e8d6a5c3bea2a9be9e5728679";
 
 const createSession = async (req, res) => {
+  console.log("Received cartItems:", req.body.cartItems);
   const { userId, cartItems } = req.body;
 
   if (!cartItems || !Array.isArray(cartItems)) {
