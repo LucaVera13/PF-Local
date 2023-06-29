@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const { createSession } = require("../Controllers/paymentsControllers");
 const Stripe = require("stripe");
-const Order = require("../Database/models/order");
 const User = require("../Database/models/userModel");
 const stripe = new Stripe(
   "sk_test_51NNLpXJ1lb1YFkHpt7cNexUW59vJoBx40Sta98qZ2Bqa8bRzrTaU1gjsNAWMrpYseNMP4u3KRJZxMbjBXT9LtuJC00e9OgY4Hm"
@@ -20,22 +19,22 @@ router.get("/cancel");
 const createOrder = async (customer, data) => {
   try {
     console.log("Creating new order...");
-
-    const user = await User.findById(customer.userId);
-    const cartData = JSON.parse(user.carrito);
+    console.log(customer.metadata.userId);
+    const user = await User.findById(customer.metadata.userId);
+    const cartData = user.carrito;
 
     console.log("Cart Data:", cartData);
 
     const orderItems = cartData.map((item) => ({
-      id: item.id,
+      id: item.productId,
       name: item.name,
-      quantity: item.quantity,
+      quantity: item.cantidad,
       images: item.images,
-      price: item.unit_amount,
+      price: item.precio,
     }));
 
-    const newOrder = new Order({
-      user: userId,
+    const newOrder = {
+      user: customer.metadata.userId,
       customerId: data.customer,
       orderItems: orderItems,
       paymentInfo: {
@@ -43,18 +42,25 @@ const createOrder = async (customer, data) => {
         status: data.payment_status,
         amountPaid: data.amount_total,
       },
-    });
+    };
 
     console.log("New Order:", newOrder);
 
-    const createdOrder = await newOrder.save();
+    // Update user's orders property
+    const updatedUser = await User.findByIdAndUpdate(
+      customer.metadata.userId,
+      {
+        $push: { orders: newOrder },
+      },
+      { new: true }
+    );
 
-    console.log("Order created:", createdOrder);
+    console.log("Updated User:", updatedUser);
 
-    return createdOrder;
+    return newOrder;
   } catch (error) {
     console.error("Error creating order:", error);
-    // Maneja el error de acuerdo a tus necesidades
+    // Handle the error according to your needs
     throw error;
   }
 };

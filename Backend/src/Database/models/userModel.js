@@ -56,13 +56,51 @@ const userSchema = new Schema({
       },
     },
   ],
-  metodosPago: [
+  orders: [
     {
-      tipo: {
+      user: {
         type: String,
+        required: true,
       },
-      numero: {
+      customerId: { type: String },
+
+      orderItems: [
+        {
+          id: {
+            type: String,
+          },
+          name: {
+            type: String,
+          },
+          quantity: {
+            type: String,
+          },
+          images: {
+            type: [String],
+          },
+          price: {
+            type: Number,
+          },
+        },
+      ],
+      paymentInfo: {
+        id: {
+          type: String,
+        },
+        status: {
+          type: String,
+        },
+        amountPaid: {
+          type: Number,
+        },
+      },
+      orderStatus: {
         type: String,
+        default: "En proceso",
+      },
+      createdAt: {
+        type: Date,
+        default: Date.now,
       },
     },
   ],

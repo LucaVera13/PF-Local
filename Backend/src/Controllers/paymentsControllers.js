@@ -12,9 +12,12 @@ const createSession = async (req, res) => {
     const customer = await stripe.customers.create({
       metadata: {
         userId: req.body.userId,
+
         // carrito: JSON.stringify(req.body.cartItems),
       },
     });
+    console.log(req.body.userId);
+
     const lineItems = req.body.cartItems.map((product) => {
       const { name, description, unit_amount, quantity, images } = product;
       console.log(name, description, unit_amount, quantity, images);
