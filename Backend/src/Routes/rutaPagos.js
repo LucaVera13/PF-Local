@@ -3,7 +3,7 @@ const router = express.Router();
 const { createSession } = require("../Controllers/paymentsControllers");
 const Stripe = require("stripe");
 const Order = require("../Database/models/order");
-const User = require("../Database/models/user");
+const User = require("../Database/models/userModel");
 const stripe = new Stripe(
   "sk_test_51NNLpXJ1lb1YFkHpt7cNexUW59vJoBx40Sta98qZ2Bqa8bRzrTaU1gjsNAWMrpYseNMP4u3KRJZxMbjBXT9LtuJC00e9OgY4Hm"
 );
