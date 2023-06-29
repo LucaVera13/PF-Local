@@ -20,20 +20,21 @@ const createOrder = async (customer, data) => {
   try {
     console.log("Creating new order...");
 
-    const cartData = req.body.cartItems; // Acceder a cartItems directamente desde req.body
-
+    const cartData = JSON.parse(customer.metadata.carrito);
     console.log("Cart Data:", cartData);
+
+    const orderItems = cartData.map((item) => ({
+      id: item.id,
+      name: item.name,
+      quantity: item.quantity,
+      images: item.images,
+      price: item.unit_amount,
+    }));
 
     const newOrder = new Order({
       user: customer.metadata.userId,
       customerId: data.customer,
-      orderItems: cartData.map((item) => ({
-        id: item.id,
-        name: item.name,
-        quantity: item.quantity,
-        images: item.images,
-        price: item.price,
-      })),
+      orderItems: orderItems,
       paymentInfo: {
         id: data.payment_intent,
         status: data.payment_status,
