@@ -20,13 +20,9 @@ const createOrder = async (customer, data) => {
   try {
     console.log("Creating new order...");
 
-    // Verifica si el userId coincide con un usuario existente
-    const existingUser = await User.findById(customer.metadata.userId);
-    if (!existingUser) {
-      throw new Error("User not found");
-    }
+    const cartData = req.body.cartItems; // Acceder a cartItems directamente desde req.body
 
-    const cartData = JSON.parse(existingUser.metadata.carrito);
+    console.log("Cart Data:", cartData);
 
     const newOrder = new Order({
       user: customer.metadata.userId,
@@ -48,10 +44,6 @@ const createOrder = async (customer, data) => {
     console.log("New Order:", newOrder);
 
     const createdOrder = await newOrder.save();
-
-    // Actualiza la propiedad 'orders' del usuario con la nueva orden
-    existingUser.orders.push(createdOrder);
-    await existingUser.save();
 
     console.log("Order created:", createdOrder);
     // Realiza cualquier otra acción necesaria
