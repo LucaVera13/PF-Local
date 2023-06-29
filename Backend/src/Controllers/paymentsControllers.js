@@ -8,15 +8,25 @@ const DOMAIN = "https://re-store-six.vercel.app/";
 //   "whsec_602cd2598b4998749e3f929be11b474b1123a11e8d6a5c3bea2a9be9e5728679";
 
 const createSession = async (req, res) => {
+  const { userId, cartItems } = req.body;
+
+  if (!cartItems || !Array.isArray(cartItems)) {
+    console.error("Error: Invalid cartItems format");
+    res.status(400).send("Error: Invalid cartItems format");
+    return;
+  }
+
+  const customer = await stripe.customers.create({
+    metadata: {
+      userId: userId,
+      carrito: JSON.stringify(cartItems),
+    },
+  });
+
   try {
-    const customer = await stripe.customers.create({
-      metadata: {
-        userId: req.body.userId,
-      },
-    });
-    const lineItems = req.body.cartItems.map((product) => {
+    const lineItems = cartItems.map((product) => {
       const { name, description, unit_amount, quantity, images } = product;
-      console.log(name, description, unit_amount, quantity, images);
+
       return {
         price_data: {
           product_data: {
@@ -30,7 +40,6 @@ const createSession = async (req, res) => {
         quantity: quantity,
       };
     });
-
     const session = await stripe.checkout.sessions.create({
       line_items: lineItems,
       mode: "payment",
