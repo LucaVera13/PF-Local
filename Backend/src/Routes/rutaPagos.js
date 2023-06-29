@@ -1,9 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const {
-  createSession,
-  //   webHookController,
-} = require("../Controllers/paymentsControllers");
+const { createSession } = require("../Controllers/paymentsControllers");
 const Stripe = require("stripe");
 const Order = require("../Database/models/order");
 const stripe = new Stripe(
@@ -19,18 +16,20 @@ router.get("/cancel");
 
 // endpointSecret =
 //   "whsec_602cd2598b4998749e3f929be11b474b1123a11e8d6a5c3bea2a9be9e5728679";
-const createOrder = async (userId, cartData, data) => {
+const createOrder = async (customer, data) => {
   try {
     console.log("Creating new order...");
 
     // Verifica si el userId coincide con un usuario existente
-    const existingUser = await User.findById(userId);
+    const existingUser = await User.findById(customer.metadata.userId);
     if (!existingUser) {
       throw new Error("User not found");
     }
 
+    const cartData = JSON.parse(existingUser.metadata.carrito);
+
     const newOrder = new Order({
-      user: userId,
+      user: customer.metadata.userId,
       customerId: data.customer,
       orderItems: cartData.map((item) => ({
         id: item.id,
