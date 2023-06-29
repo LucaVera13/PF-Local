@@ -26,7 +26,7 @@ const createSession = async (req, res) => {
             description: description,
             images: images,
           },
-          currency: "ARS",
+          currency: "USD",
           unit_amount: unit_amount,
         },
         quantity: quantity,
