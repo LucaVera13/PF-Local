@@ -12,7 +12,6 @@ const createSession = async (req, res) => {
     const customer = await stripe.customers.create({
       metadata: {
         userId: req.body.userId,
-        // carrito: JSON.stringify(req.body.cartItems),
       },
     });
     const lineItems = req.body.cartItems.map((product) => {

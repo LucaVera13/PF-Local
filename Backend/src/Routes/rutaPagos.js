@@ -19,15 +19,18 @@ router.get("/cancel");
 
 // endpointSecret =
 //   "whsec_602cd2598b4998749e3f929be11b474b1123a11e8d6a5c3bea2a9be9e5728679";
-const createOrder = async (customer, data) => {
+const createOrder = async (userId, cartData, data) => {
   try {
     console.log("Creating new order...");
 
-    const cartData = JSON.parse(customer.metadata.carrito);
-    console.log("Cart Data:", cartData);
+    // Verifica si el userId coincide con un usuario existente
+    const existingUser = await User.findById(userId);
+    if (!existingUser) {
+      throw new Error("User not found");
+    }
 
     const newOrder = new Order({
-      user: customer.metadata.userId,
+      user: userId,
       customerId: data.customer,
       orderItems: cartData.map((item) => ({
         id: item.id,
@@ -46,6 +49,10 @@ const createOrder = async (customer, data) => {
     console.log("New Order:", newOrder);
 
     const createdOrder = await newOrder.save();
+
+    // Actualiza la propiedad 'orders' del usuario con la nueva orden
+    existingUser.orders.push(createdOrder);
+    await existingUser.save();
 
     console.log("Order created:", createdOrder);
     // Realiza cualquier otra acción necesaria
