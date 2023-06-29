@@ -12,8 +12,6 @@ const createSession = async (req, res) => {
     const customer = await stripe.customers.create({
       metadata: {
         userId: req.body.userId,
-
-        // carrito: JSON.stringify(req.body.cartItems),
       },
     });
     console.log(req.body.userId);
@@ -28,7 +26,7 @@ const createSession = async (req, res) => {
             description: description,
             images: images,
           },
-          currency: "USD",
+          currency: "ARS",
           unit_amount: unit_amount,
         },
         quantity: quantity,
