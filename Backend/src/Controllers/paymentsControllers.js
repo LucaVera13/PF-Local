@@ -32,6 +32,13 @@ const createSession = async (req, res) => {
   const cartData = await retrieveCartData(userId);
 
   try {
+    // Obtener los datos del cliente desde la base de datos
+    const customer = await User.findById(userId);
+
+    // Verificar si el cliente existe
+    if (!customer) {
+      throw new Error("Cliente no encontrado");
+    }
     const lineItems = cartData.map((product) => {
       const { name, description, unit_amount, quantity, images } = product;
 
