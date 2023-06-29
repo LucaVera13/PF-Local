@@ -26,10 +26,10 @@ const retrieveCartData = async (userId) => {
 
 const createSession = async (req, res) => {
   // Obtener el identificador o referencia del carrito desde req.body.cartId
-  const cartId = req.body.cartId;
+  const userId = req.body.userId;
 
   // Recuperar los datos completos del carrito utilizando el identificador o referencia
-  const cartData = await retrieveCartData(cartId);
+  const cartData = await retrieveCartData(userId);
 
   try {
     const lineItems = cartData.map((product) => {
