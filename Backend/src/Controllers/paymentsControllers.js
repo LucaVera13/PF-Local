@@ -2,30 +2,37 @@ const Stripe = require("stripe");
 const stripe = new Stripe(
   "sk_test_51NNLpXJ1lb1YFkHpt7cNexUW59vJoBx40Sta98qZ2Bqa8bRzrTaU1gjsNAWMrpYseNMP4u3KRJZxMbjBXT9LtuJC00e9OgY4Hm"
 );
+const User = require("../Database/models/userModel");
 const DOMAIN = "https://re-store-six.vercel.app/";
 
 // const endpointSecret =
 //   "whsec_602cd2598b4998749e3f929be11b474b1123a11e8d6a5c3bea2a9be9e5728679";
+const retrieveCartData = async (userId) => {
+  try {
+    // Buscar al usuario en la base de datos utilizando el userId
+    const user = await User.findById(userId);
+
+    if (!user) {
+      throw new Error("Usuario no encontrado");
+    }
+
+    // Devolver los datos del carrito del usuario
+    return user.carrito;
+  } catch (error) {
+    console.error("Error al recuperar los datos del carrito:", error);
+    throw error;
+  }
+};
 
 const createSession = async (req, res) => {
-  console.log("Received cartItems:", req.body.cartItems);
-  const { userId, cartItems } = req.body;
+  // Obtener el identificador o referencia del carrito desde req.body.cartId
+  const cartId = req.body.cartId;
 
-  if (!cartItems || !Array.isArray(cartItems)) {
-    console.error("Error: Invalid cartItems format");
-    res.status(400).send("Error: Invalid cartItems format");
-    return;
-  }
-
-  const customer = await stripe.customers.create({
-    metadata: {
-      userId: userId,
-      carrito: JSON.stringify(cartItems),
-    },
-  });
+  // Recuperar los datos completos del carrito utilizando el identificador o referencia
+  const cartData = await retrieveCartData(cartId);
 
   try {
-    const lineItems = cartItems.map((product) => {
+    const lineItems = cartData.map((product) => {
       const { name, description, unit_amount, quantity, images } = product;
 
       return {

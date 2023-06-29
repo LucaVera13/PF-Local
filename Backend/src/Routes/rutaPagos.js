@@ -20,7 +20,7 @@ const createOrder = async (customer, data) => {
   try {
     console.log("Creating new order...");
 
-    const cartData = JSON.parse(customer.metadata.carrito);
+    const cartData = JSON.parse(customer.carrito);
     console.log("Cart Data:", cartData);
 
     const orderItems = cartData.map((item) => ({
